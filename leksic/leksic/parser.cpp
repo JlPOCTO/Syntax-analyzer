@@ -11,21 +11,26 @@ Tree Parser::HEADER()
 	Tree res("HEADER");
 	if (currToken == BASE_TYPE || currToken == VOID)
 	{
+		//TYPE
 		if (currToken == BASE_TYPE) res.addChild(Tree("BASE_TYPE"));
 		else res.addChild(Tree("VOID"));
+		//NAME
 		currToken = analyzer.nextToken();
 		if (currToken == NAME)
 		{
 			Tree FN("NAME");
 			res.addChild(FN);
+			//LPAREN
 			currToken = analyzer.nextToken();
 			if (currToken == LPAREN)
 			{
 				Tree LPN("LPAREN");
 				res.addChild(LPN);
+				//PARAMS
 				Tree params = PARAMS();
 				res.addChild(params);
 				currToken = analyzer.nextToken();
+				//RPAREN
 				if (currToken == RPAREN)
 				{
 					Tree RPN("RPAREN");
@@ -55,8 +60,7 @@ Tree Parser::PARAMS()
 		Tree param1 = PARAM1(currToken);
 		res.addChild(param1);
 		Tree paramOthers = PARAMS2();
-		if (paramOthers.getNode() != "")
-			res.addChild(paramOthers);
+		res.addChild(paramOthers);
 		return res;
 	}
 	else if (currToken == RPAREN)
@@ -79,6 +83,9 @@ Tree Parser::PARAM1(Token varType)
 	if (currToken == NAME)
 	{
 		res.addChild(Tree("NAME"));
+		Tree empty("VAR");
+		empty.addChild(Tree());
+		res.addChild(empty);
 		return res;
 	}
 	throw runtime_error("Error: Failed to parse variable");
@@ -105,7 +112,7 @@ Tree Parser::PARAMS2()
 			else throw runtime_error("Expected variable name");
 			
 			Tree nextVar = PARAMS2();
-			if (nextVar.getNode() != "") res.addChild(nextVar);
+			res.addChild(nextVar);
 			return res;
 		}
 		throw runtime_error("Expected variable type after comma");

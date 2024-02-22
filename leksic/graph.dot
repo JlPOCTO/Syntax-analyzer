@@ -1,0 +1,39 @@
+digraph graphname {
+  a [label="HEADER"]
+  b [label="BASE_TYPE"]
+  c [label="NAME"]
+  d [label="LPAREN"]
+  e [label="PARAMS"]
+  f [label="RPARAM"]
+  g [label="VAR"]
+  h [label="VAR"]
+  i [label="BASE_TYPE"]
+  j [label="NAME"]
+  k [label="BASE_TYPE"]
+  l [label="NAME"]
+  m [label="CUSTOM_TYPE"]
+  n [label="NAME"]
+  o [label="VAR"]
+  p [label="VAR"]
+  q [label="VAR"]
+  r [label="eps"]
+  s [label="eps"]
+  a -> b;
+  a -> c;
+  a -> d;
+  a -> e;
+  a -> f;
+  e -> g;
+  e -> h;
+  g -> i;
+  g -> j;
+  g -> p;
+  p -> r;
+  h -> k;
+  h -> l;
+  h -> o;
+  o -> m;
+  o -> n;
+  o -> q;
+  q -> s;
+}

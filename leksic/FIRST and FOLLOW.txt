@@ -1,6 +1,6 @@
 	   |	FIRST	   |	FOLLOW
 ___________|_______________|_______________
-	   |		   |
+HEADER	   | i,d,c,f,v	   | $
 BASE_TYPE  | i,d,c,f	   | [a-zA-Z_]
 NAME	   | [a-zA-Z_]	   | (, ',', )
 LPAREN	   | (		   | [a-zA-Z_]
