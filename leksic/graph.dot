@@ -1,39 +1,86 @@
 digraph graphname {
   a [label="HEADER"]
-  b [label="BASE_TYPE"]
-  c [label="NAME"]
-  d [label="LPAREN"]
+  b [label="BASE_TYPE\nint"]
+  c [label="NAME\nmain"]
+  d [label="LPAREN\n("]
   e [label="PARAMS"]
-  f [label="RPARAM"]
+  f [label="RPAREN\n)"]
   g [label="VAR"]
   h [label="VAR"]
-  i [label="BASE_TYPE"]
-  j [label="NAME"]
-  k [label="BASE_TYPE"]
-  l [label="NAME"]
-  m [label="CUSTOM_TYPE"]
-  n [label="NAME"]
+  i [label="BASE_TYPE\nint"]
+  gP [label="POINTER"]
+  gP1 [label="*"]
+  gPP [label="POINTER"]
+  gPP1 [label="*"]
+  gPPP [label="POINTER"]
+  gPPPE [label="Eps"]
+  j [label="NAME\nvar1"]
+  k [label="BASE_TYPE\nchar"]
+  hP [label="POINTER"]
+  hP1 [label="*"]
+  hPP [label="POINTER"]
+  hPPE [label="Eps"]
+  l [label="NAME\nvar2"]
+  m [label="CUSTOM_TYPE\ncustomStruct"]
+  oP [label="POINTER"]
+  oP1 [label="*"]
+  oPP [label="POINTER"]
+  oPPE [label="Eps"]
+  n [label="NAME\nvar3"]
   o [label="VAR"]
   p [label="VAR"]
+  pP [label="POINTER"]
   q [label="VAR"]
+  qT [label = "CUSTOM_TYPE"]
+  qP [label="POINTER"]
+  qN [label="NAME"]
+  qE [label="EQUALS"]
+  qDef [label="DEFAULT_VALUE"]
+  qL [label="VAR"]
   r [label="eps"]
   s [label="eps"]
+  headPoint [label="POINTER"]
+  headEps [label="Eps"]
+  lastV [label="VAR"]
+  lastP [label="POINTER"]
   a -> b;
   a -> c;
+  a -> headPoint;
   a -> d;
   a -> e;
   a -> f;
+  headPoint -> headEps;
   e -> g;
   e -> h;
   g -> i;
   g -> j;
+  g -> gP;
+  gP -> gP1;
+  gP -> gPP;
+  gPP -> gPP1;
+  gPP -> gPPP;
+  gPPP -> gPPPE;
   g -> p;
   p -> r;
   h -> k;
+  h -> hP;
+  hP -> hP1;
+  hP -> hPP;
+  hPP -> hPPE;
   h -> l;
   h -> o;
   o -> m;
+  o -> oP;
+  oP -> oP1;
+  oP -> oPP;
+  oPP -> oPPE;
   o -> n;
   o -> q;
-  q -> s;
+  q -> qT;
+  q -> qP;
+  q -> qN;
+  q -> qE;
+  q -> qDef;
+  q -> qL;
+  qL -> s;
 }

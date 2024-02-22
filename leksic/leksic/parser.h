@@ -15,5 +15,6 @@ private:
   Tree PARAMS();
   Tree PARAM1(Token varType);
   Tree PARAMS2();
+  std::pair <Tree, Token> POINTERS();
 };
 

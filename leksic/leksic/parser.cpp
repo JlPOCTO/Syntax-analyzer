@@ -1,4 +1,5 @@
 #include "parser.h"
+#include <iostream>
 
 Parser::Parser(string st)
 {
@@ -14,8 +15,10 @@ Tree Parser::HEADER()
 		//TYPE
 		if (currToken == BASE_TYPE) res.addChild(Tree("BASE_TYPE"));
 		else res.addChild(Tree("VOID"));
+		std::pair<Tree, Token> pointers = POINTERS();
+		res.addChild(pointers.first);
 		//NAME
-		currToken = analyzer.nextToken();
+		currToken = pointers.second;
 		if (currToken == NAME)
 		{
 			Tree FN("NAME");
@@ -79,17 +82,58 @@ Tree Parser::PARAM1(Token varType)
 	else stT = "BASE_TYPE";
 	Tree res("VAR");
 	res.addChild(Tree(stT));
-	Token currToken = analyzer.nextToken();
+	
+  std::pair<Tree, Token> pointers = POINTERS();
+  res.addChild(pointers.first);
+	Token currToken = pointers.second;
 	if (currToken == NAME)
 	{
 		res.addChild(Tree("NAME"));
-		Tree empty("VAR");
-		empty.addChild(Tree());
-		res.addChild(empty);
+		Token nextToken = analyzer.nextToken();
+		if (nextToken == EQUALS)
+		{
+			Tree eq("EQUALS");
+			eq.addChild(Tree("="));
+			res.addChild(eq);
+			nextToken = analyzer.nextToken();
+			if (nextToken == DEFAULT_VALUE)
+			{
+				res.addChild(Tree("DEFAULT_VALUE"));
+			}
+			else
+			{
+				runtime_error("Error: Expected default value");
+			}
+		}
+		else
+		{
+			analyzer.decreaseIndex();
+			analyzer.setToken(currToken);
+		}
+    Tree empty("VAR");
+    empty.addChild(Tree());
+    res.addChild(empty);
 		return res;
 	}
 	throw runtime_error("Error: Failed to parse variable");
 }
+
+
+std::pair <Tree, Token> Parser::POINTERS()
+{
+	Tree res("POINTER");
+	Token currToken = analyzer.nextToken();
+	if (currToken == POINTER)
+	{
+		res.addChild(Tree("*"));
+		std::pair<Tree, Token> nextPointers = POINTERS();
+		res.addChild(nextPointers.first);
+		return { res, nextPointers.second };
+	}
+	res.addChild(Tree("Eps"));
+	return { res, currToken };
+}
+
 
 Tree Parser::PARAMS2()
 {
@@ -97,7 +141,10 @@ Tree Parser::PARAMS2()
 	if (currToken == RPAREN)
 	{
 		analyzer.decreaseIndex();
-		return Tree();
+		Tree aps("Eps");
+		Tree res("VAR");
+		res.addChild(aps);
+		return res;
 	}
 	else if (currToken == COMMA) {
 		Tree res("VAR");
@@ -106,11 +153,35 @@ Tree Parser::PARAMS2()
 		{
 			if (currToken == BASE_TYPE)	res.addChild(Tree("BASE_TYPE"));
 			else	res.addChild(Tree("CUSTOM_TYPE"));
-			currToken = analyzer.nextToken();
+      std::pair<Tree, Token> pointers = POINTERS();
+      res.addChild(pointers.first);
+      Token currToken = pointers.second;
 
 			if (currToken == NAME) res.addChild(Tree("NAME"));
 			else throw runtime_error("Expected variable name");
 			
+      Token nextToken = analyzer.nextToken();
+      if (nextToken == EQUALS)
+      {
+        Tree eq("EQUALS");
+        eq.addChild(Tree("="));
+        res.addChild(eq);
+        nextToken = analyzer.nextToken();
+        if (nextToken == DEFAULT_VALUE)
+        {
+          res.addChild(Tree("DEFAULT_VALUE"));
+        }
+        else
+        {
+          runtime_error("Error: Expected default value");
+        }
+      }
+      else
+      {
+        analyzer.decreaseIndex();
+        analyzer.setToken(currToken);
+      }
+
 			Tree nextVar = PARAMS2();
 			res.addChild(nextVar);
 			return res;
@@ -119,7 +190,7 @@ Tree Parser::PARAMS2()
 	}
 	else
 	{
-		throw runtime_error("Error: Failed to parse variable");
+		throw runtime_error("Error: Failed to parse variable2");
 	}
 }
 

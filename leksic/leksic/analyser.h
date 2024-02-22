@@ -24,6 +24,7 @@ private:
   size_t _index;
   Token currToken = HEADER;
   bool isPrevType = false;
+  bool isDefault = false;
 
   set<string> reservedWords = { 
     "auto",       "double",     "int",        "struct",

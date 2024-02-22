@@ -10,6 +10,17 @@ Token Analyser::nextToken()
     isPrevType = false;
     return COMMA;
   }
+  if (_input[_index] == '=')
+  {
+    _index++;
+    isDefault = true;
+    return EQUALS;
+  }
+  if (_input[_index] == '*')
+  {
+    _index++;
+    return POINTER;
+  }
   if (_input[_index] == '(')
   {
     _index++;
@@ -24,7 +35,7 @@ Token Analyser::nextToken()
   }
   string st = "";
   while (_index < _input.size() && _input[_index] != ' ' && _input[_index] != '\t' && _input[_index] != '(' &&
-    _input[_index] != ')' && _input[_index] != ',')
+    _input[_index] != ')' && _input[_index] != ',' && _input[_index] != '*' && _input[_index] != '=')
   {
     st += _input[_index++];
   }
@@ -49,6 +60,11 @@ Token Analyser::nextToken()
     }
     if (isAllowedName(st)) return CUSTOM_TYPE;
     throw runtime_error("Syntax error: Invalid struct name");
+  }
+  if (isDefault)
+  {
+    isDefault = false;
+    return DEFAULT_VALUE;
   }
   if (isPrevType && isAllowedName(st))
   {

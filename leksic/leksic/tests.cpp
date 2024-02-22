@@ -32,7 +32,7 @@ void test(string st)
 
 void test1()
 {
-  string st = "int main(int var1, char var2, customStruct var3)";
+  string st = "int main(int** var1, char* var2, customStruct* var3, lastStruct var_ = \"default\")";
   test(st);
 }
 
