@@ -1,0 +1,22 @@
+HEADER -> BASE_TYPE NAME LPAREN PARAMS RPAREN
+HEADER -> VOID NAME LPAREN PARAMS RPAREN
+
+PARAMS -> PARAM1 PARAM2
+PARAMS -> Eps
+
+PARAM1 -> VAR
+PARAM1 -> Eps
+
+PARAM2 -> COMMA VAR PARAM2
+PARAM2 -> Eps
+
+VAR -> BASE_TYPE NAME
+VAR -> CUSTOM_TYPE NAME
+
+BASE_TYPE -> "int" || "double" || "char" || "float"
+NAME -> [a-zA-Z_][0-9a-zA-Z_]*
+LPAREN -> '('
+RPAREN -> ')'
+VOID -> "void"
+COMMA -> ','
+CUSTOM_TYPE -> [a-zA-Z_][0-9a-zA-Z_]* || struct [a-zA-Z_][0-9a-zA-Z_]*
