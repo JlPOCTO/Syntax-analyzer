@@ -1,0 +1,14 @@
+	   |	FIRST	   |	FOLLOW
+___________|_______________|_______________
+	   |		   |
+BASE_TYPE  | i,d,c,f	   | [a-zA-Z_]
+NAME	   | [a-zA-Z_]	   | (, ',', )
+LPAREN	   | (		   | [a-zA-Z_]
+PARAMS 	   | eps,[a-zA-Z_] | )
+RPAREN	   | )		   | $
+VOID 	   | v		   | [a-zA-Z_]
+PARAM1 	   | eps,[a-zA-Z_] | ), [a-zA-Z_]
+PARAM2	   | eps,[a-zA-Z_] | ), [a-zA-Z_]
+VAR	   | eps,[a-zA-Z_] | ',', ), [a-zA-Z_]
+COMMA 	   | ','	   | [a-zA-Z_]
+CUSTOM_TYPE| [a-zA-Z_]	   | [a-zA-Z_]
